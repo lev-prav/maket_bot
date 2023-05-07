@@ -1,26 +1,59 @@
 {
   "room_path" : "/home/lev/data/projects/tgBotCpp/res/textures/room.png",
   "coordinates": {
-    "wall" : {
-
+    "wall_left" : {
+      "top_left" :      [0.0, 0.0],
+      "top_right" :     [327.0, 203.0],
+      "bottom_left" :   [0.0, 900.0],
+      "bottom_right" :  [326.0, 688.0]
+    },
+    "wall_mid" : {
+      "top_left" :      [327.0, 203.0],
+      "top_right" :     [1293.0, 203.0],
+      "bottom_left" :   [327.0, 687.0],
+      "bottom_right" :  [1292.0, 687.0]
+    },
+    "wall_right" : {
+      "top_left" :      [1292.0, 203.0],
+      "top_right" :     [1600.0, 0.0],
+      "bottom_left" :   [1292.0, 687.0],
+      "bottom_right" :  [1600.0, 900.0]
     },
     "floor" : {
-
+      "top_left" :      [326.0, 687.0],
+      "top_right" :     [1292.0, 687.0],
+      "bottom_left" :   [0.0, 900.0],
+      "bottom_right" :  [1600.0, 900.0]
     },
     "roof" : {
-
+      "top_left" :      [0.0, 0.0],
+      "top_right" :     [1600.0, 0.0],
+      "bottom_left" :   [327.0, 203.0],
+      "bottom_right" :  [1293.0, 203.0]
     },
     "floor_board" : {
-
+      "top_left" :      [0.0, 0.0],
+      "top_right" :     [1600.0, 0.0],
+      "bottom_left" :   [327.0, 203.0],
+      "bottom_right" :  [1293.0, 203.0]
     },
     "roof_board" : {
-
+      "top_left" :      [0.0, 0.0],
+      "top_right" :     [1600.0, 0.0],
+      "bottom_left" :   [327.0, 203.0],
+      "bottom_right" :  [1293.0, 203.0]
     },
     "furniture" : {
-
+      "top_left" :      [0.0, 0.0],
+      "top_right" :     [1600.0, 0.0],
+      "bottom_left" :   [327.0, 203.0],
+      "bottom_right" :  [1293.0, 203.0]
     },
     "stuff" : {
-
+      "top_left" :      [0.0, 0.0],
+      "top_right" :     [1600.0, 0.0],
+      "bottom_left" :   [327.0, 203.0],
+      "bottom_right" :  [1293.0, 203.0]
     }
   }
 }

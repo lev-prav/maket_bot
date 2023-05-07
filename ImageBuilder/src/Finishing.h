@@ -8,9 +8,23 @@ namespace ImageBuilder{
                     topRight,
                     bottomLeft,
                     bottomRight;
-        inline std::array<cv::Point2f, 4> toArray(){
+
+        inline std::array<cv::Point2f, 4> toArray() const {
             return {topLeft, topRight, bottomLeft, bottomRight};
         };
+
+        inline int getMaxWidth() const{
+            int minLeft = std::min(topLeft.x, bottomLeft.x),
+                maxRight = std::max(topRight.x, bottomRight.x);
+
+            return maxRight - minLeft;
+        }
+        inline int getMaxHeight() const{
+            int minTop = std::min(topLeft.y, topRight.y),
+                maxBottom = std::max(bottomLeft.y, bottomRight.y);
+
+            return maxBottom - minTop;
+        }
     };
 
     class Finishing{
@@ -18,12 +32,7 @@ namespace ImageBuilder{
         Finishing(const std::string& type, const cv::Mat& texture) :
         type_(type), texture_(texture)
         {
-            coords_ = {
-              .topLeft =        {0.f,                   0.f},
-              .topRight =       {texture_.cols - 1.f,   0.f},
-              .bottomLeft =     {0.f,                   texture_.rows - 1.f},
-              .bottomRight =    {texture_.cols - 1.f,   texture_.rows - 1.f}
-            };
+            updateCoords();
         }
 
         cv::Mat getTexture() const{
@@ -38,6 +47,9 @@ namespace ImageBuilder{
         }
 
     private:
+
+        void updateCoords();
+
         std::string type_;
         cv::Mat texture_;
         Coordinates coords_;

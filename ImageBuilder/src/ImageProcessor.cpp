@@ -13,11 +13,11 @@ ImageBuilder::ImageProcessor::createFinishing(const std::string &type, const cv:
 }
 
 int ImageBuilder::ImageProcessor::pasteFinishing(const Finishing &finishing) {
-    auto type = config_.getTypeCoordinate(finishing.getType());
-    if (!type)
+    auto pasteCoords = config_.getTypeCoordinate(finishing.getType());
+    if (!pasteCoords)
         return EXIT_FAILURE;
 
-    return builder_.addFinishing(finishing, type.value());;
+    return builder_.addFinishing(finishing, pasteCoords.value());;
 }
 
 cv::Mat ImageBuilder::ImageProcessor::getRoom() {
@@ -25,6 +25,13 @@ cv::Mat ImageBuilder::ImageProcessor::getRoom() {
 }
 
 int ImageBuilder::ImageProcessor::loadConfig(const Config &config) {
+    updateBuilder(config);
     config_ = config;
+
+    return 0;
+}
+
+int ImageBuilder::ImageProcessor::updateBuilder(const Config &config) {
+    builder_.setBase(config.getBaseImg());
     return 0;
 }
