@@ -34,7 +34,7 @@ find_package (SFML REQUIRED system window graphics network audio)
 include_directories(${SFML_INCLUDE_DIR})
 
 set(IB_SOURCES ImageBuilder/src/ImageBuilder.cpp
-        ImageBuilder/src/ImageBuilder.h ImageBuilder/src/ConfigParser.cpp ImageBuilder/src/ConfigParser.h ImageBuilder/src/Finishing.h ImageBuilder/src/Config.cpp ImageBuilder/src/Config.h)
+        ImageBuilder/src/ImageBuilder.h ImageBuilder/src/ConfigParser.cpp ImageBuilder/src/ConfigParser.h ImageBuilder/src/Finishing.h ImageBuilder/src/Config.cpp ImageBuilder/src/Config.h ImageBuilder/src/ImageProcessor.cpp ImageBuilder/src/ImageProcessor.h)
 set(SFML_LIBRARIES -lsfml-graphics -lsfml-window -lsfml-system)
 
 add_library(ImageBuilder ${IB_SOURCES})

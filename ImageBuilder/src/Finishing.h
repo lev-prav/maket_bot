@@ -8,6 +8,9 @@ namespace ImageBuilder{
                     topRight,
                     bottomLeft,
                     bottomRight;
+        inline std::array<cv::Point2f, 4> toArray(){
+            return {topLeft, topRight, bottomLeft, bottomRight};
+        };
     };
 
     class Finishing{
@@ -23,8 +26,16 @@ namespace ImageBuilder{
             };
         }
 
-        cv::Mat getTexture();
-        Coordinates getCoords();
+        cv::Mat getTexture() const{
+            return texture_;
+        }
+        Coordinates getCoords() const{
+            return coords_;
+        }
+
+        std::string getType() const{
+            return type_;
+        }
 
     private:
         std::string type_;

@@ -7,16 +7,15 @@
 
 using namespace cv;
 
-int ImageBuilder::ImageBuilder::addFinishing(const std::string &type, cv::Mat texture) {
+int ImageBuilder::ImageBuilder::addFinishing(const Finishing &finishing, const Coordinates& pasteCoords) {
 
     // Input Quadilateral or Image plane coordinates
     Point2f inputQuad[4];
     // Output Quadilateral or World plane coordinates
     Point2f outputQuad[4];
 
-    auto texturePosition = finishingCoordinates_[type];
 
-    auto foreground = buildFinishing(texturePosition, texture);
+    auto foreground = buildFinishing(pasteCoords, finishing.getTexture());
 
     // The 4 points that select quadilateral on the input , from top-left in clockwise order
     // These four pts are the sides of the rect box used as input

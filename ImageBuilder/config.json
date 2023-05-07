@@ -1,6 +1,26 @@
 {
-  "room_path" : "",
+  "room_path" : "/home/lev/data/projects/tgBotCpp/res/textures/room.png",
   "coordinates": {
-    ""
+    "wall" : {
+
+    },
+    "floor" : {
+
+    },
+    "roof" : {
+
+    },
+    "floor_board" : {
+
+    },
+    "roof_board" : {
+
+    },
+    "furniture" : {
+
+    },
+    "stuff" : {
+
+    }
   }
 }

@@ -11,17 +11,12 @@
 namespace ImageBuilder{
     class ImageBuilder {
     public:
-        ImageBuilder(const Config& config );
 
-        int loadConfig(const Config& config );
-
-        int addFinishing(const std::string& type, cv::Mat texture);
+        int addFinishing(const Finishing &finishing, const Coordinates& pasteCoords);
         cv::Mat getRoom();
 
     private:
         cv::Mat buildFinishing(const Coordinates& outCoords, cv::Mat texture);
-
-        CoordinateMap  finishingCoordinates_;
         cv::Mat base_;
     };
 }

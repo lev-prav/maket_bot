@@ -13,10 +13,14 @@ namespace ImageBuilder{
     class Config {
     public:
         Config(const std::string& path);
+        Config(const CoordinateMap& map);
 
-        CoordinateMap getCoordinatsMapping();
+        CoordinateMap getCoordinateMapping();
+        bool checkForType(const std::string& type);
+        std::optional<Coordinates> getTypeCoordinate(const std::string& type);
 
     private:
+
         CoordinateMap finishingCoordinates_;
     };
 }
