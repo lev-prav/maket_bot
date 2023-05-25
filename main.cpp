@@ -11,25 +11,72 @@
 #include "db/DBHandler.h"
 #include "src/UserState.h"
 #include "src/Dispatcher.h"
+#include "ImageBuilder/src/IBConfig.h"
+#include "ImageBuilder/src/ImageProcessor.h"
+#include "src/BotConfig.h"
 
+std::map<std::string, std::vector<std::string>> mock = {
+        {"wall" ,  {
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 1 (СТЕНЫ)/1_kamen_1.png"    ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 1 (СТЕНЫ)/1_oboi_1.png"     ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 1 (СТЕНЫ)/1_oboi_2.png"     ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 1 (СТЕНЫ)/1_oboi_3.png"     ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 1 (СТЕНЫ)/1_oboi_4.png"     ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 1 (СТЕНЫ)/1_oboi_5.png"     ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 1 (СТЕНЫ)/1_oboi_6.png"     ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 1 (СТЕНЫ)/1_oboi_7.png"     ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 1 (СТЕНЫ)/1_probka_1.png"   ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 1 (СТЕНЫ)/1_vagonka_1.png"
+        }},
+        {"floor" ,   {
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 2 (ПОЛ)/2_kvarz_1.png"  ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 2 (ПОЛ)/2_lamin_1.png"  ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 2 (ПОЛ)/2_linol_1.png"  ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 2 (ПОЛ)/2_plitka_1.png" ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 2 (ПОЛ)/2_plitka_2.png" ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 2 (ПОЛ)/2_plitka_3.png" ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 2 (ПОЛ)/2_plitka_4.png" ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 2 (ПОЛ)/2_plitka_5.png" ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 2 (ПОЛ)/2_probka_1.png" ,
+            "/home/lev/data/projects/tgBotCpp/res/textures/РАЗДЕЛ - 2 (ПОЛ)/2_probka_2.png"
+        }},
+        {"roof",        {}},
+        {"floor_board", {}} ,
+        {"roof_board",  {}},
+        {"furniture",   {}},
+        {"stuff" ,      {}}
+};
 
 using namespace std;
 using namespace TgBot;
 
 
 int main(int argc, char** argv) {
-    string token("5838544474:AAEBmmC7HIIQte-AVJjHPV6Hzea4mnI5gtw");
+//    string token("5838544474:AAEBmmC7HIIQte-AVJjHPV6Hzea4mnI5gtw");
+
+
+    ImageBuilder::IBConfig IBConfig("/home/lev/data/projects/tgBotCpp/config.json");
+    ImageBuilder::ImageProcessor processor(IBConfig);
+    BotConfig botConfig("/home/lev/data/projects/tgBotCpp/config.json");
+    std::string token = botConfig.getToken();
     printf("Token: %s\n", token.c_str());
 
+    auto configStages = botConfig.getStages();
+
+    std::list<std::string> stagesList = {"START", "SQUARE"};
+    stagesList.assign( configStages.cbegin(), configStages.cend());
+    stagesList.emplace_back("END");
+
+    StageQueue stage(stagesList);
+
+    std::map<long, UserState> states;
+    Dispatcher dp;
     DBHandler db;
 
     Bot bot(token);
     bot.getApi().deleteMyCommands();
 
-    std::map<long, UserState> states;
-    Dispatcher dp;
-
-    bot.getEvents().onCommand("start", [&bot, &db, &states](Message::Ptr message) {
+    bot.getEvents().onCommand("start", [&bot, &db, &states, stage](Message::Ptr message) {
 
         auto user= db.findUser(message->from->id);
         if (!user){
@@ -40,13 +87,12 @@ int main(int argc, char** argv) {
             };
             testUser.id = db.addUser(testUser);
             states.insert(
-                    {testUser.tg_id, UserState(testUser, State::START)}
+                    {testUser.tg_id, UserState(testUser, State::START, stage)}
                     );
             std::cout<<"Add New User!\n";
         }
 
         states[user->tg_id].setState(State::START);
-        states[user->tg_id].setStage(Stage::START);
         std::string messageText = "Здравствуй, дорогой " + user->tg_nickname;
 
         ReplyKeyboardMarkup::Ptr keyboardWithLayout = createKeyboard({
@@ -75,7 +121,6 @@ int main(int argc, char** argv) {
 //        if (message->text == "Начать редактирование"){
 //            bot.getApi().sendMessage(message->chat->id, "Задайте размеры комнаты в формате: ШиринаxДлинаxВысота");
 //        }
-
 
         //bot.getApi().sendMessage(message->chat->id, "Your message is: " + message->text);
     });

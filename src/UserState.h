@@ -2,6 +2,7 @@
 
 #include "../db/model/user.h"
 #include "../db/model/DataObject.h"
+#include "StageQueue.h"
 #include <map>
 
 enum class State{
@@ -15,20 +16,11 @@ enum class State{
 };
 
 
-enum class Stage{
-    START,
-    SQUARE,
-    WALL,
-    FLOOR,
-    ROOF,
-    LOW_BASEBOARD,
-    UP_BASEBOARD
-};
-
 class UserState {
 public:
     UserState() = default;
-    UserState(const models::User& user, State initState) : user_(user), state_(initState)
+    UserState(const models::User& user, State initState, const StageQueue& stage) :
+    user_(user), state_(initState), stage_(stage)
     {}
 
     void setState(State state){
@@ -38,10 +30,7 @@ public:
         return state_;
     }
 
-    void setStage(Stage stage){
-        stage_ = stage;
-    }
-    Stage getStage(){
+    StageQueue& getStage(){
         return stage_;
     }
 
@@ -49,5 +38,5 @@ public:
 private:
     models::User user_;
     State state_;
-    Stage stage_;
+    StageQueue stage_;
 };

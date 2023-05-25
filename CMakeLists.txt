@@ -30,16 +30,14 @@ target_link_libraries(db_handler PRIVATE sqlite_orm::sqlite_orm)
 find_package( OpenCV REQUIRED )
 find_package(nlohmann_json 3.2.0 REQUIRED)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
-find_package (SFML REQUIRED system window graphics network audio)
-include_directories(${SFML_INCLUDE_DIR})
 
 set(IB_SOURCES ImageBuilder/src/ImageBuilder.cpp
-        ImageBuilder/src/ImageBuilder.h ImageBuilder/src/ConfigParser.cpp ImageBuilder/src/ConfigParser.h ImageBuilder/src/Finishing.h ImageBuilder/src/Config.cpp ImageBuilder/src/Config.h ImageBuilder/src/ImageProcessor.cpp ImageBuilder/src/ImageProcessor.h ImageBuilder/src/Finishing.cpp)
-set(SFML_LIBRARIES -lsfml-graphics -lsfml-window -lsfml-system)
+        ImageBuilder/src/ImageBuilder.h ImageBuilder/src/Finishing.h ImageBuilder/src/IBConfig.cpp ImageBuilder/src/IBConfig.h ImageBuilder/src/ImageProcessor.cpp ImageBuilder/src/ImageProcessor.h ImageBuilder/src/Finishing.cpp)
 
 add_library(ImageBuilder ${IB_SOURCES})
 # ${OpenCV_LIBS}                                     ${SFML_LIBRARIES} ${SFML_DEPENDENCIES}
-target_link_libraries(ImageBuilder  ${OpenCV_LIBS}
+target_link_libraries(ImageBuilder  PRIVATE
+                                    ${OpenCV_LIBS}
                                     nlohmann_json::nlohmann_json)
 
 add_executable(test_IB ImageBuilder/main.cpp)
@@ -59,11 +57,13 @@ endif()
 add_executable(maket_bot main.cpp   src/UserState.cpp
                                     src/UserState.h
                                     src/Dispatcher.cpp
-                                    src/Dispatcher.h)
+                                    src/Dispatcher.h src/BotConfig.cpp src/BotConfig.h src/StageQueue.cpp src/StageQueue.h src/StageHandler.cpp src/StageHandler.h)
 
 target_link_libraries(maket_bot db_handler
+                                ImageBuilder
                                 /usr/local/lib/libTgBot.a
                                 ${CMAKE_THREAD_LIBS_INIT}
                                 ${OPENSSL_LIBRARIES}
                                 ${Boost_LIBRARIES}
-                                ${CURL_LIBRARIES})
+                                ${CURL_LIBRARIES}
+                                nlohmann_json::nlohmann_json)

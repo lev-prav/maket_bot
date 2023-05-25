@@ -24,14 +24,14 @@ cv::Mat ImageBuilder::ImageProcessor::getRoom() {
     return builder_.getRoom();
 }
 
-int ImageBuilder::ImageProcessor::loadConfig(const Config &config) {
+int ImageBuilder::ImageProcessor::loadConfig(const IBConfig &config) {
     updateBuilder(config);
     config_ = config;
 
     return 0;
 }
 
-int ImageBuilder::ImageProcessor::updateBuilder(const Config &config) {
+int ImageBuilder::ImageProcessor::updateBuilder(const IBConfig &config) {
     builder_.setBase(config.getBaseImg());
     return 0;
 }

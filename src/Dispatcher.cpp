@@ -36,18 +36,18 @@ void Dispatcher::handle(TgBot::Bot& bot, UserState& user, TgBot::Message::Ptr& m
     ReplyKeyboardMarkup::Ptr keyboard;
     std::string answerText = "Непонятно...";
 
-    Stage stage = user.getStage();
-    switch(stage){
-        case Stage::START:{
+    StageQueue& stage = user.getStage();
+    switch(stage.getStage()){
+        case "START" :{
             if (message->text == "Начать редактирование"){
                 answerText = "Задайте размеры комнаты в формате: Ширина-Длина-Высота";
 
-                user.setStage(Stage::SQUARE);
+                user.setStage(StageQueue::SQUARE);
                 user.setState(State::IDLE);
             }
             break;
         }
-        case Stage::SQUARE: {
+        case "SQUARE": {
             std::istringstream iss(message->text);
             std::string item;
             std::vector<int> room;
@@ -61,25 +61,13 @@ void Dispatcher::handle(TgBot::Bot& bot, UserState& user, TgBot::Message::Ptr& m
                         room[2]
                         )
             );
-            user.setStage(Stage::WALL);
+            user.setStage(StageQueue::WALL);
             user.setState(State::START);
             break;
         }
-        case Stage::WALL:{
-            answerText = "Выберите материал для отделки стен";
-            user.storage.insert_or_assign(
-                "wall", models::Wall()
-            );
-            break;
+        default:{
+
         }
-        case Stage::FLOOR:
-            break;
-        case Stage::ROOF:
-            break;
-        case Stage::LOW_BASEBOARD:
-            break;
-        case Stage::UP_BASEBOARD:
-            break;
     }
 
     State state = user.getState();

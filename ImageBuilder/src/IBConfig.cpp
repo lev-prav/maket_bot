@@ -2,7 +2,7 @@
 // Created by lev on 05.05.23.
 //
 
-#include "Config.h"
+#include "IBConfig.h"
 #include <nlohmann/json.hpp>
 #include <iostream>
 #include <fstream>
@@ -24,11 +24,11 @@ std::optional<json> read_json(const std::string& config_path) {
     return {};
 }
 
-Config::Config(const std::string &path) {
+IBConfig::IBConfig(const std::string &path) {
     parseJSON(path);
 }
 
-int Config::parseJSON(const std::string &path) {
+int IBConfig::parseJSON(const std::string &path) {
     auto config = read_json(path);
     if (!config)
         throw std::domain_error("Файл " + path + " не найден или содержит ошибки!");
@@ -54,29 +54,29 @@ int Config::parseJSON(const std::string &path) {
 }
 
 
-ImageBuilder::Config::Config(const ImageBuilder::CoordinateMap &map) {
+ImageBuilder::IBConfig::IBConfig(const ImageBuilder::CoordinateMap &map) {
     finishingCoordinates_ = map;
 }
 
-std::optional<Coordinates> ImageBuilder::Config::getTypeCoordinate(const std::string &type) {
+std::optional<Coordinates> ImageBuilder::IBConfig::getTypeCoordinate(const std::string &type) {
     if (!checkForType(type))
         return {};
     return finishingCoordinates_[type];
 }
 
-bool Config::checkForType(const std::string &type) {
+bool IBConfig::checkForType(const std::string &type) {
     return finishingCoordinates_.find(type) != finishingCoordinates_.end();
 }
 
-CoordinateMap Config::getCoordinateMapping() {
+CoordinateMap IBConfig::getCoordinateMapping() {
     return finishingCoordinates_;
 }
 
-int Config::loadBaseImage(const std::string &path) {
+int IBConfig::loadBaseImage(const std::string &path) {
     baseImg_ = cv::imread(path);
     return 0;
 }
 
-cv::Mat Config::getBaseImg() const {
+cv::Mat IBConfig::getBaseImg() const {
     return baseImg_;
 }

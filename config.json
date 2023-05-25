@@ -1,5 +1,12 @@
 {
   "room_path" : "/home/lev/data/projects/tgBotCpp/res/textures/room.png",
+  "labels" : {
+    "Стены":                  ["wall_left", "wall_mid", "wall_right"],
+    "Потолок" :               ["roof"],
+    "Пол" :                   ["floor"],
+    "Потолочный плинтус" :    ["roof_board"]
+  },
+  "token" : "5838544474:AAEBmmC7HIIQte-AVJjHPV6Hzea4mnI5gtw",
   "coordinates": {
     "wall_left" : {
       "top_left" :      [0.0, 0.0],

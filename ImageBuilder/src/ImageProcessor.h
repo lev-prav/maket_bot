@@ -1,26 +1,23 @@
-//
-// Created by lev on 06.05.23.
-//
 
 #pragma once
-#include "Config.h"
+#include "IBConfig.h"
 #include "ImageBuilder.h"
 
 namespace ImageBuilder{
     class ImageProcessor {
     public:
-        explicit ImageProcessor(const Config& config){
+        explicit ImageProcessor(const IBConfig& config){
             loadConfig(config);
         }
 
-        int loadConfig(const Config& config);
+        int loadConfig(const IBConfig& config);
         std::optional<Finishing> createFinishing(const std::string& type, const cv::Mat& texture);
         int pasteFinishing(const Finishing& finishing);
         cv::Mat getRoom();
     private:
-        int updateBuilder(const Config &config);
+        int updateBuilder(const IBConfig &config);
 
-        Config config_;
+        IBConfig config_;
         ImageBuilder builder_;
     };
 }

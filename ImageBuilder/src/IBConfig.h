@@ -10,11 +10,11 @@
 namespace ImageBuilder{
     using CoordinateMap = std::unordered_map<std::string, Coordinates>;
 
-    class Config {
+    class IBConfig {
     public:
-        Config() = default;
-        Config(const std::string& path);
-        Config(const CoordinateMap& map);
+        IBConfig() = default;
+        IBConfig(const std::string& path);
+        IBConfig(const CoordinateMap& map);
 
         int parseJSON(const std::string& path);
         cv::Mat getBaseImg() const;

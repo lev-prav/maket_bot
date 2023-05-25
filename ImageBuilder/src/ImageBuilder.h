@@ -1,11 +1,8 @@
-//
-// Created by lev on 02.05.23.
-//
 
 #pragma once
 #include <string>
 #include <opencv2/core/mat.hpp>
-#include "Config.h"
+#include "IBConfig.h"
 #include "Finishing.h"
 
 namespace ImageBuilder{
